@@ -1,9 +1,9 @@
 import DefaultForm from "@/components/shared/form/ui/default-form";
 import FormGroup from "@/components/shared/form/ui/form-group";
 import FormSection from "@/components/shared/form/ui/form-section";
-import { db, storage } from "@/pages/firebase";
 import { Button, Divider, Form, Input, InputNumber, Select, message } from "antd";
 import { useForm } from "antd/lib/form/Form";
+import { db, storage } from "firebase-instanse";
 import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router";

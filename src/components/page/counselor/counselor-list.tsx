@@ -1,9 +1,8 @@
-import { useProducts } from "@/client/sample/product";
+import { getProducts } from "@/client/sample/product";
 import DefaultTable from "@/components/shared/ui/default-table";
 import DefaultTableBtn from "@/components/shared/ui/default-table-btn";
 import { ColumnsType } from "antd/es/table";
 import { DocumentData, Timestamp } from "firebase/firestore/lite";
-import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 
 type Props = {
@@ -18,27 +17,21 @@ type Props = {
 const CounselorList = (props: Props) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [data, setData] = useState<DocumentData[]>([]);
-  const router = useRouter();
 
   const onSelectChange = useCallback((newSelectedRowKeys: React.Key[]) => {
     console.log(newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   }, []);
 
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-  };
-
   const getDatas = async () => {
-    const d = await useProducts(props.searchText, props.type, ["COUNSELOR"]);
+    const d = await getProducts(props.searchText, props.type, ["COUNSELOR"]);
     console.log(d);
     setData(d);
   };
 
   useEffect(() => {
     getDatas();
-  }, [props.searchText, props.type, props.status]);
+  }, []);
 
   const hasSelected = selectedRowKeys.length > 0;
 

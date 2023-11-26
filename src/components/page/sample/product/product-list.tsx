@@ -1,4 +1,4 @@
-import { useProducts } from "@/client/sample/product";
+import { getProducts } from "@/client/sample/product";
 import DefaultTable from "@/components/shared/ui/default-table";
 import DefaultTableBtn from "@/components/shared/ui/default-table-btn";
 import { Button } from "antd";
@@ -34,14 +34,14 @@ const ProductList = (props: Props) => {
   };
 
   const getDatas = async () => {
-    const d = await useProducts(props.searchText, props.type, props.status);
+    const d = await getProducts(props.searchText, props.type, props.status);
     console.log(d);
     setData(d);
   };
 
   useEffect(() => {
     getDatas();
-  }, [props.searchText, props.type, props.status]);
+  }, []);
 
   const hasSelected = selectedRowKeys.length > 0;
 

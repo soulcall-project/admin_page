@@ -4,7 +4,7 @@ import { Alert } from "antd";
 import { collection, getDocs, query, where } from "firebase/firestore/lite";
 import { Verified } from "lucide-react";
 import { useEffect } from "react";
-import { db } from "./firebase";
+import { db } from "../../firebase-instanse";
 
 const LoginPage = () => {
   const getUsers = async () => {

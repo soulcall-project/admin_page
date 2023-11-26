@@ -15,6 +15,7 @@
     "antd": "^5.7.3",
     "dayjs": "^1.11.9",
     "firebase": "^10.6.0",
+    "firebase-tools": "^12.9.1",
     "framer-motion": "^10.15.0",
     "ky": "^0.33.3",
     "ky-universal": "^0.12.0",

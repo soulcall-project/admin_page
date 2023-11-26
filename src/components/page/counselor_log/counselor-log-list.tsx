@@ -1,4 +1,4 @@
-import { useCounselor } from "@/client/sample/product";
+import { getCounselor } from "@/client/sample/product";
 import DefaultTable from "@/components/shared/ui/default-table";
 import DefaultTableBtn from "@/components/shared/ui/default-table-btn";
 import { ColumnsType } from "antd/es/table";
@@ -6,7 +6,7 @@ import { DocumentData, Timestamp } from "firebase/firestore/lite";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 
-const CounselorLogList = () => {
+export const CounselorLogList = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [data, setData] = useState<DocumentData[]>([]);
   const router = useRouter();
@@ -22,7 +22,7 @@ const CounselorLogList = () => {
   };
 
   const getDatas = async () => {
-    const d = await useCounselor();
+    const d = await getCounselor();
     console.log(d);
     setData(d);
   };
@@ -106,5 +106,3 @@ const CounselorLogList = () => {
     </>
   );
 };
-
-export default React.memo(CounselorLogList);

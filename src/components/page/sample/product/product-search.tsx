@@ -4,7 +4,6 @@ import FormSearch from "@/components/shared/form/ui/form-search";
 import { Button, Checkbox, Form, Input, Select } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { Search } from "lucide-react";
-import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 
 const statusOptions = [
@@ -23,22 +22,14 @@ type Props = {
 
 const ProductSearch = (props: Props) => {
   const [form] = useForm();
-  const router = useRouter();
 
-  const handleFinish = useCallback(
-    (formValue: any) => {
-      // router.push({
-      //   pathname: router.pathname,
-      //   query: { ...router.query, ...formValue },
-      // });
-      console.log(formValue);
+  const handleFinish = useCallback((formValue: any) => {
+    console.log(formValue);
 
-      props.setSearchText(formValue.searchText ? formValue.searchText : "");
-      props.setStatus(formValue.status ? formValue.status : []);
-      props.setType(formValue.searchType ? formValue.searchType : "");
-    },
-    [router]
-  );
+    props.setSearchText(formValue.searchText ? formValue.searchText : "");
+    props.setStatus(formValue.status ? formValue.status : []);
+    props.setType(formValue.searchType ? formValue.searchType : "");
+  }, []);
 
   return (
     <DefaultSearchForm form={form} onFinish={handleFinish}>

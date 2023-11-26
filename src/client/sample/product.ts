@@ -1,5 +1,5 @@
-import { db } from "@/pages/firebase";
 import { ISO8601DateTime } from "@/types/common";
+import { db } from "firebase-instanse";
 import { collection, doc, getDoc, getDocs, orderBy, query, where } from "firebase/firestore/lite";
 import useSWR from "swr";
 import { fetchApi } from "../base";
@@ -44,7 +44,7 @@ export interface IProductResponse {
   data: IProduct;
 }
 
-export const useProducts = async (searchText: string, type: string, status: string[]) => {
+export const getProducts = async (searchText: string, type: string, status: string[]) => {
   const userCollection = collection(db, "user");
   const queries: any[] = [];
 
@@ -86,7 +86,7 @@ export const useProducts = async (searchText: string, type: string, status: stri
     });
 };
 
-export const useCounselor = async () => {
+export const getCounselor = async () => {
   const counselorCollection = collection(db, "counseling_log");
 
   const q = query(counselorCollection, orderBy("created_at", "desc"));
