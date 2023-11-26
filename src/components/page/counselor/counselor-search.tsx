@@ -1,7 +1,7 @@
 import DefaultSearchForm from "@/components/shared/form/ui/default-search-form";
 import FieldInline from "@/components/shared/form/ui/field-inline";
 import FormSearch from "@/components/shared/form/ui/form-search";
-import { Button, Checkbox, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { Search } from "lucide-react";
 import { useRouter } from "next/router";
@@ -21,7 +21,7 @@ type Props = {
   setStatus: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-const ProductSearch = (props: Props) => {
+const CounselorSearch = (props: Props) => {
   const [form] = useForm();
   const router = useRouter();
 
@@ -34,7 +34,7 @@ const ProductSearch = (props: Props) => {
       console.log(formValue);
 
       props.setSearchText(formValue.searchText ? formValue.searchText : "");
-      props.setStatus(formValue.status ? formValue.status : []);
+      props.setStatus(["COUNSELOR"]);
       props.setType(formValue.searchType ? formValue.searchType : "");
     },
     [router]
@@ -43,11 +43,6 @@ const ProductSearch = (props: Props) => {
   return (
     <DefaultSearchForm form={form} onFinish={handleFinish}>
       <FormSearch>
-        <div>
-          <Form.Item name="status" label="유저 상태">
-            <Checkbox.Group options={statusOptions} />
-          </Form.Item>
-        </div>
         <div>
           <FieldInline>
             <Form.Item label="검색조건" name="searchType" initialValue="userName">
@@ -74,4 +69,4 @@ const ProductSearch = (props: Props) => {
   );
 };
 
-export default React.memo(ProductSearch);
+export default React.memo(CounselorSearch);

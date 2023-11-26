@@ -1,9 +1,34 @@
 import GradientBg from "@/components/page/login/gradient-bg";
 import LoginForm from "@/components/page/login/login-form";
 import { Alert } from "antd";
+import { collection, getDocs, query, where } from "firebase/firestore/lite";
 import { Verified } from "lucide-react";
+import { useEffect } from "react";
+import { db } from "./firebase";
 
 const LoginPage = () => {
+  const getUsers = async () => {
+    const user = collection(db, "user");
+    const q = query(user, where("is_counselor", "==", true));
+    const users = await getDocs(q);
+    // const users = await getDoc(user);
+
+    // const users = await getDoc(user);
+
+    // console.log(users);
+    console.log(users.docs);
+    // console.log(users.query);
+    // console.log(users.size);
+    for (var doc of users.docs) {
+      console.log(doc.data());
+    }
+  };
+
+  useEffect(() => {
+    console.log("와우!");
+    getUsers();
+  }, []);
+
   return (
     <div className="flex min-h-screen bg-white items-centerw-full">
       <div className={`relative hidden w-1/2 lg:block`}>
@@ -11,7 +36,7 @@ const LoginPage = () => {
         <img src="/logo.png" className="absolute w-10 h-10 top-5 left-5" alt="logo" />
         <div className="absolute inline-flex items-center gap-1 px-3 py-2 font-semibold text-white border-2 border-white rounded-lg left-5 bottom-5">
           <Verified width={18} height={18} />
-          PURPLE ADMIN UI
+          Soulcall
         </div>
       </div>
 
@@ -39,7 +64,7 @@ const LoginPage = () => {
               />
             ) : null}
             <div className="flex flex-col items-center justify-center px-2 mt-8 sm:mt-0">
-              <h2 className="mt-2 text-5xl font-bold leading-tight inter">AWESOME</h2>
+              <h2 className="mt-2 text-5xl font-bold leading-tight inter">소울콜</h2>
               <div className="mt-1 text-lg text-gray-400">Admin System</div>
             </div>
 

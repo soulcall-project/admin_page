@@ -1,20 +1,20 @@
-import { getDefaultLayout, IDefaultLayoutPage, IPageHeader } from "@/components/layout/default-layout";
-import ProductList from "@/components/page/sample/product/product-list";
-import ProductSearch from "@/components/page/sample/product/product-search";
+import { IDefaultLayoutPage, IPageHeader, getDefaultLayout } from "@/components/layout/default-layout";
+import CounselorList from "@/components/page/counselor/counselor-list";
+import CounselorSearch from "@/components/page/counselor/counselor-search";
 import { useState } from "react";
 
 const pageHeader: IPageHeader = {
-  title: "일반 유저 관리",
+  title: "상담사 관리",
 };
 
-const IndexPage: IDefaultLayoutPage = () => {
+const Counsler: IDefaultLayoutPage = () => {
   const [searchText, setSearchText] = useState("");
   const [type, setType] = useState("");
   const [status, setStatus] = useState<string[]>([]);
 
   return (
     <>
-      <ProductSearch
+      <CounselorSearch
         searchText={searchText}
         setSearchText={setSearchText}
         type={type}
@@ -22,7 +22,7 @@ const IndexPage: IDefaultLayoutPage = () => {
         status={status}
         setStatus={setStatus}
       />
-      <ProductList
+      <CounselorList
         searchText={searchText}
         setSearchText={setSearchText}
         type={type}
@@ -34,7 +34,7 @@ const IndexPage: IDefaultLayoutPage = () => {
   );
 };
 
-IndexPage.getLayout = getDefaultLayout;
-IndexPage.pageHeader = pageHeader;
+Counsler.pageHeader = pageHeader;
+Counsler.getLayout = getDefaultLayout;
 
-export default IndexPage;
+export default Counsler;

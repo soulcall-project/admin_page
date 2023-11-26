@@ -13,12 +13,13 @@ const credentialsProviderOption: CredentialsConfig<{}> = {
     password: { label: "Password", type: "password" },
   },
   async authorize(credentials: Record<string, unknown> | undefined) {
-    if (credentials && credentials.username === "admin" && credentials.password === "admin") {
+    console.log(process.env.EMAIL, process.env.PASSWORD);
+    if (credentials && credentials.username === process.env.EMAIL && credentials.password === process.env.PASSWORD) {
       return {
         id: "1",
-        login: "admin",
+        login: process.env.EMAIL,
         name: "관리자",
-        email: "",
+        email: process.env.EMAIL,
         image: "",
       };
     }

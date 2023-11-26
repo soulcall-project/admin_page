@@ -1,7 +1,6 @@
 import { useProducts } from "@/client/sample/product";
 import DefaultTable from "@/components/shared/ui/default-table";
 import DefaultTableBtn from "@/components/shared/ui/default-table-btn";
-import { Button } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { DocumentData, Timestamp } from "firebase/firestore/lite";
 import { useRouter } from "next/router";
@@ -16,25 +15,23 @@ type Props = {
   setStatus: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-const ProductList = (props: Props) => {
+const CounselorList = (props: Props) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [data, setData] = useState<DocumentData[]>([]);
   const router = useRouter();
 
   const onSelectChange = useCallback((newSelectedRowKeys: React.Key[]) => {
+    console.log(newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   }, []);
 
   const rowSelection = {
     selectedRowKeys,
-    // onChange: onSelectChange,
-    onChange: (value: any) => {
-      console.log(value);
-    },
+    onChange: onSelectChange,
   };
 
   const getDatas = async () => {
-    const d = await useProducts(props.searchText, props.type, props.status);
+    const d = await useProducts(props.searchText, props.type, ["COUNSELOR"]);
     console.log(d);
     setData(d);
   };
@@ -47,7 +44,7 @@ const ProductList = (props: Props) => {
 
   const columns: ColumnsType<DocumentData> = [
     {
-      title: "순번",
+      title: "순서",
       dataIndex: "id",
       width: 30,
       align: "center",
@@ -79,12 +76,75 @@ const ProductList = (props: Props) => {
       },
     },
     {
-      title: "상담사 여부",
-      dataIndex: "is_counselor",
+      title: "상담 가격",
+      dataIndex: "counselor_profile",
       align: "center",
       width: 120,
-      render: (value: boolean) => {
-        return <div>{value ? "상담사" : "일반 유저"}</div>;
+      render: (value) => {
+        return <div>{value ? value.video_price : "?"}원</div>;
+      },
+    },
+    {
+      title: "커리어",
+      dataIndex: "counselor_profile",
+      align: "center",
+      width: 120,
+      render: (value) => {
+        return <div>{value ? value.career : "?"}</div>;
+      },
+    },
+    {
+      title: "성별",
+      dataIndex: "counselor_profile",
+      align: "center",
+      width: 120,
+      render: (value) => {
+        return <div>{value ? value.gender : "?"}</div>;
+      },
+    },
+    {
+      title: "등급",
+      dataIndex: "counselor_profile",
+      align: "center",
+      width: 120,
+      render: (value) => {
+        return <div>{value ? value.grade : "?"}</div>;
+      },
+    },
+    {
+      title: "소개",
+      dataIndex: "counselor_profile",
+      align: "center",
+      width: 250,
+      render: (value) => {
+        return <div>{value ? value.intro : "?"}</div>;
+      },
+    },
+    {
+      title: "상담 방법",
+      dataIndex: "counselor_profile",
+      align: "center",
+      width: 120,
+      render: (value) => {
+        return <div>{value ? value.method : "?"}</div>;
+      },
+    },
+    {
+      title: "상담 필드",
+      dataIndex: "counselor_profile",
+      align: "center",
+      width: 200,
+      render: (value) => {
+        return <div>{value ? value.fields.join(", ") : "?"}</div>;
+      },
+    },
+    {
+      title: "상담 스타일",
+      dataIndex: "counselor_profile",
+      align: "center",
+      width: 200,
+      render: (value) => {
+        return <div>{value ? value.styles.join(", ") : "?"}</div>;
       },
     },
   ];
@@ -94,36 +154,6 @@ const ProductList = (props: Props) => {
       <DefaultTableBtn className="justify-between">
         <div>
           <span style={{ marginLeft: 8 }}>{hasSelected ? `${selectedRowKeys.length}건 선택` : ""}</span>
-        </div>
-
-        <div className="flex-item-list">
-          <Button
-            type="primary"
-            onClick={() => {
-              console.log(selectedRowKeys);
-              if (selectedRowKeys.length > 1) {
-                alert("한명의 유저만 선택해주세요.");
-                return;
-              } else if (selectedRowKeys.length <= 0) {
-                alert("한명의 유저를 선택해주세요.");
-                return;
-              }
-
-              const user = data[parseInt(selectedRowKeys[0].toString())];
-              console.log(user);
-
-              router.push({
-                pathname: "/sample/product/new",
-                query: {
-                  display_name: user.display_name,
-                  uid: user.uid,
-                  ...user.counselor_profile,
-                },
-              });
-            }}
-          >
-            상담사 업그레이드
-          </Button>
         </div>
       </DefaultTableBtn>
 
@@ -140,4 +170,4 @@ const ProductList = (props: Props) => {
   );
 };
 
-export default React.memo(ProductList);
+export default React.memo(CounselorList);
