@@ -67,6 +67,9 @@ const ProductForm = ({ initialValue }: Props) => {
         styles: formValue.styles,
         video_price: formValue.video_price,
         voice_price: formValue.video_price,
+        review_count: 0,
+        recounsel_count: 0,
+        price_per_10m: formValue.video_price,
       },
     };
 

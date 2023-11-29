@@ -37,7 +37,7 @@ const CounselorSearch = (props: Props) => {
       props.setStatus(["COUNSELOR"]);
       props.setType(formValue.searchType ? formValue.searchType : "");
     },
-    [router]
+    []
   );
 
   return (
