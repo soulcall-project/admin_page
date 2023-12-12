@@ -3,13 +3,11 @@ import DefaultTable from "@/components/shared/ui/default-table";
 import DefaultTableBtn from "@/components/shared/ui/default-table-btn";
 import { ColumnsType } from "antd/es/table";
 import { DocumentData, Timestamp } from "firebase/firestore/lite";
-import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 
 export const CounselorLogList = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [data, setData] = useState<DocumentData[]>([]);
-  const router = useRouter();
 
   const onSelectChange = useCallback((newSelectedRowKeys: React.Key[]) => {
     console.log(newSelectedRowKeys);
@@ -76,6 +74,7 @@ export const CounselorLogList = () => {
       width: 100,
       render: (value) => {
         const price = value.counselor_profile.price_per_10m * Math.ceil(value.seconds / 60 / 10);
+        console.log(value);
 
         return <div>{price}원</div>;
       },
