@@ -69,7 +69,6 @@ export const CounselorLogList = () => {
     },
     {
       title: "상담 가격",
-      dataIndex: "counselorData",
       align: "center",
       width: 100,
       render: (value) => {
