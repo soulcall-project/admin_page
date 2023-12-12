@@ -1,8 +1,10 @@
 import { getProducts } from "@/client/sample/product";
 import DefaultTable from "@/components/shared/ui/default-table";
 import DefaultTableBtn from "@/components/shared/ui/default-table-btn";
+import { Button } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { DocumentData, Timestamp } from "firebase/firestore/lite";
+import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 
 type Props = {
@@ -29,9 +31,11 @@ const CounselorList = (props: Props) => {
     setData(d);
   };
 
+  const router = useRouter();
+
   useEffect(() => {
     getDatas();
-  }, []);
+  }, [props.searchText, props.status, props.type]);
 
   const hasSelected = selectedRowKeys.length > 0;
 
@@ -74,7 +78,7 @@ const CounselorList = (props: Props) => {
       align: "center",
       width: 120,
       render: (value) => {
-        return <div>{value ? value.video_price : "?"}원</div>;
+        return <div>{value ? value.price_per_10m : "?"}원</div>;
       },
     },
     {
@@ -147,6 +151,36 @@ const CounselorList = (props: Props) => {
       <DefaultTableBtn className="justify-between">
         <div>
           <span style={{ marginLeft: 8 }}>{hasSelected ? `${selectedRowKeys.length}건 선택` : ""}</span>
+        </div>
+
+        <div className="flex-item-list">
+          <Button
+            type="primary"
+            onClick={() => {
+              console.log(selectedRowKeys);
+              if (selectedRowKeys.length > 1) {
+                alert("한명의 유저만 선택해주세요.");
+                return;
+              } else if (selectedRowKeys.length <= 0) {
+                alert("한명의 유저를 선택해주세요.");
+                return;
+              }
+
+              const user = data[parseInt(selectedRowKeys[0].toString())];
+              console.log(user);
+
+              router.push({
+                pathname: "/sample/product/new",
+                query: {
+                  display_name: user.display_name,
+                  uid: user.uid,
+                  ...user.counselor_profile,
+                },
+              });
+            }}
+          >
+            상담사 수정
+          </Button>
         </div>
       </DefaultTableBtn>
 

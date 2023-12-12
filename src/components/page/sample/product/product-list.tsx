@@ -41,7 +41,7 @@ const ProductList = (props: Props) => {
 
   useEffect(() => {
     getDatas();
-  }, []);
+  }, [props.searchText, props.status, props.type]);
 
   const hasSelected = selectedRowKeys.length > 0;
 

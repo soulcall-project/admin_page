@@ -44,17 +44,29 @@ export const CounselorLogList = () => {
       dataIndex: "start_at",
       width: 150,
       render: (value: Timestamp) => {
+        const date = new Date(value.seconds * 1000);
         // console.log(value);
-        return <>{value ? <div>{new Date(value.seconds * 1000).toISOString()}</div> : <div></div>}</>;
+        return (
+          <div>{`${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}`}</div>
+        );
       },
     },
     {
-      title: "상담 시작 시간",
+      title: "상담 종료 시간",
       dataIndex: "end_at",
       width: 150,
       render: (value: Timestamp) => {
+        const date = new Date(value.seconds * 1000);
         // console.log(value);
-        return <>{value ? <div>{new Date(value.seconds * 1000).toISOString()}</div> : <div></div>}</>;
+        return (
+          <>
+            {value ? (
+              <div>{`${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}`}</div>
+            ) : (
+              <div></div>
+            )}
+          </>
+        );
       },
     },
     {
@@ -63,7 +75,9 @@ export const CounselorLogList = () => {
       align: "center",
       width: 100,
       render: (value) => {
-        return <div>{value.counselor_profile.video_price}원</div>;
+        const price = value.counselor_profile.price_per_10m * Math.ceil(value.seconds / 60 / 10);
+
+        return <div>{price}원</div>;
       },
     },
     {

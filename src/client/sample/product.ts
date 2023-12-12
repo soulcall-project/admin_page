@@ -81,7 +81,7 @@ export const getProducts = async (searchText: string, type: string, status: stri
     })
     .map((e, index) => {
       const data = e.data();
-      data["id"] = index;
+      data["id"] = index + 1;
       return data;
     });
 };
