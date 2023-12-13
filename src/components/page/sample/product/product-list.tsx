@@ -109,7 +109,7 @@ const ProductList = (props: Props) => {
                 return;
               }
 
-              const user = data[parseInt(selectedRowKeys[0].toString())];
+              const user = data[parseInt(selectedRowKeys[0].toString()) - 1];
               console.log(user);
 
               router.push({

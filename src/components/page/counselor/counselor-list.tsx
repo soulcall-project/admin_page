@@ -3,7 +3,8 @@ import DefaultTable from "@/components/shared/ui/default-table";
 import DefaultTableBtn from "@/components/shared/ui/default-table-btn";
 import { Button } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { DocumentData, Timestamp } from "firebase/firestore/lite";
+import { db } from "firebase-instanse";
+import { DocumentData, Timestamp, doc, getDoc, updateDoc } from "firebase/firestore/lite";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 
@@ -156,6 +157,42 @@ const CounselorList = (props: Props) => {
         <div className="flex-item-list">
           <Button
             type="primary"
+            onClick={async () => {
+              console.log(selectedRowKeys);
+              if (selectedRowKeys.length > 1) {
+                alert("한명의 유저만 선택해주세요.");
+                return;
+              } else if (selectedRowKeys.length <= 0) {
+                alert("한명의 유저를 선택해주세요.");
+                return;
+              }
+
+              const user = data[parseInt(selectedRowKeys[0].toString()) - 1];
+              console.log(user);
+
+              const updateData = {
+                is_counselor: false,
+              };
+
+              console.log(updateData);
+
+              const userDoc = doc(db, `user`, `${user.uid}`);
+              const users = await getDoc(userDoc);
+              console.log(users.data());
+
+              await updateDoc(userDoc, updateData);
+
+              const user2 = await getDoc(userDoc);
+              console.log(user2.data());
+
+              alert("성공적으로 상담사로 업그레이드 했습니다.");
+              router.reload();
+            }}
+          >
+            상담사 다운그레이드
+          </Button>
+          <Button
+            type="primary"
             onClick={() => {
               console.log(selectedRowKeys);
               if (selectedRowKeys.length > 1) {
@@ -166,7 +203,7 @@ const CounselorList = (props: Props) => {
                 return;
               }
 
-              const user = data[parseInt(selectedRowKeys[0].toString())];
+              const user = data[parseInt(selectedRowKeys[0].toString()) - 1];
               console.log(user);
 
               router.push({
