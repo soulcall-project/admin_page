@@ -3,7 +3,8 @@ import DefaultTable from "@/components/shared/ui/default-table";
 import DefaultTableBtn from "@/components/shared/ui/default-table-btn";
 import { Button } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { DocumentData, Timestamp } from "firebase/firestore/lite";
+import { db } from "firebase-instanse";
+import { DocumentData, Timestamp, doc, getDoc, updateDoc } from "firebase/firestore/lite";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 
@@ -124,6 +125,46 @@ const ProductList = (props: Props) => {
           >
             상담사 업그레이드
           </Button>
+          <div className="flex-item-list">
+            <Button
+              type="primary"
+              onClick={async () => {
+                console.log(selectedRowKeys);
+                if (selectedRowKeys.length > 1) {
+                  alert("한명의 유저만 선택해주세요.");
+                  return;
+                } else if (selectedRowKeys.length <= 0) {
+                  alert("한명의 유저를 선택해주세요.");
+                  return;
+                }
+
+                const user = data[parseInt(selectedRowKeys[0].toString()) - 1];
+                console.log(user);
+
+                const date = new Date();
+
+                const updateData = {
+                  banned_at: date.setMonth(date.getMonth() + 3),
+                };
+
+                console.log(updateData);
+
+                const userDoc = doc(db, `user`, `${user.uid}`);
+                const users = await getDoc(userDoc);
+                console.log(users.data());
+
+                await updateDoc(userDoc, updateData);
+
+                const user2 = await getDoc(userDoc);
+                console.log(user2.data());
+
+                alert("성공적으로 상담사로 강제탈퇴 조치했습니다..");
+                router.reload();
+              }}
+            >
+              강제 탈퇴
+            </Button>
+          </div>
         </div>
       </DefaultTableBtn>
 
