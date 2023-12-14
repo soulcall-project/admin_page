@@ -47,36 +47,56 @@ export const CounselorLogList = (props: Props) => {
     },
     {
       title: "상담 시작 시간",
-      dataIndex: "start_at",
+      dataIndex: "start_at_real",
       width: 150,
-      render: (value: Timestamp) => {
-        const date = value.toDate();
-        // console.log(value);
-        return (
-          <div>{`${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${
-            date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
-          }:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`}</div>
-        );
+      render: (value: Timestamp, record) => {
+        if (value) {
+          const date = value.toDate();
+          // console.log(value);
+          return (
+            <div>{`${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${
+              date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+            }:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`}</div>
+          );
+        } else {
+          switch (record.status) {
+            case "wait":
+            case "confirm":
+              return <div>상담 진행 전</div>;
+            case "cancel":
+            case "cancel_counselor":
+              return <div>상담 취소됨</div>;
+            default:
+              return <div></div>;
+          }
+        }
       },
     },
     {
       title: "상담 종료 시간",
       dataIndex: "end_at",
       width: 150,
-      render: (value: Timestamp) => {
-        const date = value.toDate();
-        // console.log(value);
-        return (
-          <>
-            {value ? (
-              <div>{`${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${
-                date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
-              }:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`}</div>
-            ) : (
-              <div></div>
-            )}
-          </>
-        );
+      render: (value: Timestamp, record) => {
+        if (value) {
+          const date = value.toDate();
+          // console.log(value);
+          return (
+            <div>{`${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${
+              date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+            }:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`}</div>
+          );
+        } else {
+          switch (record.status) {
+            case "wait":
+            case "confirm":
+              return <div>상담 진행 전</div>;
+            case "cancel":
+            case "cancel_counselor":
+              return <div>상담 취소됨</div>;
+            default:
+              return <div></div>;
+          }
+        }
       },
     },
     {

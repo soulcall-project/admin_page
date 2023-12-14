@@ -30,7 +30,7 @@ const CounselorLogSearch = (props: Props) => {
       setDate(
         `${formValue.date.year()}-${
           formValue.date.month() < 10 ? `0${formValue.date.month()}` : formValue.date.month()
-        }`
+        }-01`
       );
 
       console.log(start, end);
@@ -59,12 +59,12 @@ const CounselorLogSearch = (props: Props) => {
             </Select>
           </Form.Item>
           <FieldInline>
-            {date && (
-              <>
-                <div>{date} ~ </div>
-              </>
-            )}
             <Form.Item label="검색할 날짜" name="date">
+              {date && (
+                <>
+                  <div>{date} ~ </div>
+                </>
+              )}
               <DatePicker allowClear={true} />
             </Form.Item>
           </FieldInline>
@@ -74,7 +74,14 @@ const CounselorLogSearch = (props: Props) => {
         <Button htmlType="submit" className="btn-with-icon" icon={<Search />}>
           검색
         </Button>
-        <Button htmlType="submit" className="btn-with-icon" onClick={() => form.resetFields()}>
+        <Button
+          htmlType="submit"
+          className="btn-with-icon"
+          onClick={() => {
+            setDate("");
+            form.resetFields();
+          }}
+        >
           초기화
         </Button>
       </div>
