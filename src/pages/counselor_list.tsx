@@ -11,11 +11,12 @@ const pageHeader: IPageHeader = {
 const CounselorLog: IDefaultLayoutPage = () => {
   const [start, setStart] = useState<Timestamp | null>(null);
   const [end, setEnd] = useState<Timestamp | null>(null);
+  const [type, setType] = useState<string>("all");
 
   return (
     <>
-      <CounselorLogSearch start={start} setStart={setStart} end={end} setEnd={setEnd} />
-      <CounselorLogList start={start} end={end} />
+      <CounselorLogSearch start={start} setStart={setStart} end={end} setEnd={setEnd} type={type} setType={setType} />
+      <CounselorLogList start={start} end={end} type={type} />
     </>
   );
 };

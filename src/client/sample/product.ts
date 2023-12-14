@@ -86,10 +86,14 @@ export const getProducts = async (searchText: string, type: string, status: stri
     });
 };
 
-export const getCounselor = async (start: Timestamp | null, end?: Timestamp | null) => {
+export const getCounselor = async (type: string, start: Timestamp | null, end?: Timestamp | null) => {
   const counselorCollection = collection(db, "counseling_log");
 
-  const q = query(counselorCollection, orderBy("created_at", "desc"));
+  var queries = [];
+
+  queries.push(orderBy("created_at", "desc"));
+
+  const q = query(counselorCollection, ...queries);
   const users = await getDocs(q);
 
   console.log(users);
@@ -98,37 +102,36 @@ export const getCounselor = async (start: Timestamp | null, end?: Timestamp | nu
 
   for (var e of users.docs) {
     const data = e.data();
+    if (type !== "all") {
+      if (data.status !== type) {
+        continue;
+      }
+    }
 
     const targetDate = e.data().end_at.seconds;
+    const counselorRef = doc(db, data.counselor_ref.path);
+    const counselor = await getDoc(counselorRef);
+    const counselorData = counselor.data();
+
+    const userRef = doc(db, data.user_ref.path);
+    const user = await getDoc(userRef);
+    const userData = user.data();
 
     if (start && end) {
       if (targetDate >= start.seconds && targetDate <= end.seconds) {
         console.log(targetDate, start.seconds, end.seconds);
-        const counselorRef = doc(db, data.counselor_ref.path);
-        const counselor = await getDoc(counselorRef);
-        const counselorData = counselor.data();
-
-        const userRef = doc(db, data.user_ref.path);
-        const user = await getDoc(userRef);
-        const userData = user.data();
 
         dataList.push({
           ...data,
+          docs: e.id,
           counselorData,
           userData,
         });
       }
     } else {
-      const counselorRef = doc(db, data.counselor_ref.path);
-      const counselor = await getDoc(counselorRef);
-      const counselorData = counselor.data();
-
-      const userRef = doc(db, data.user_ref.path);
-      const user = await getDoc(userRef);
-      const userData = user.data();
-
       dataList.push({
         ...data,
+        docs: e.id,
         counselorData,
         userData,
       });
