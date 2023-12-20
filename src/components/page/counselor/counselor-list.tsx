@@ -133,7 +133,7 @@ const CounselorList = (props: Props) => {
       align: "center",
       width: 200,
       render: (value) => {
-        return <div>{value ? value.fields.join(", ") : "?"}</div>;
+        return <div>{value ? (typeof value.fields === "string" ? value.fields : value.fields.join(", ")) : "?"}</div>;
       },
     },
     {
@@ -142,7 +142,7 @@ const CounselorList = (props: Props) => {
       align: "center",
       width: 200,
       render: (value) => {
-        return <div>{value ? value.styles.join(", ") : "?"}</div>;
+        return <div>{value ? (typeof value.styles === "string" ? value.styles : value.styles.join(", ")) : "?"}</div>;
       },
     },
   ];

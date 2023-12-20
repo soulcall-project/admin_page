@@ -129,16 +129,17 @@ export const CounselorLogList = (props: Props) => {
       align: "center",
       width: 120,
       render: (value) => {
-        return <div>{value.display_name}</div>;
+        console.log(value);
+        return <div>{value ? value.display_name : ""}</div>;
       },
     },
     {
-      title: "상담사 이름",
+      title: "내담자 이름",
       dataIndex: "userData",
       align: "center",
       width: 120,
       render: (value) => {
-        return <div>{value.display_name}</div>;
+        return <div>{value ? value.display_name : ""}</div>;
       },
     },
     //waiting, confirm, finish, cancel, cancel_counselor
